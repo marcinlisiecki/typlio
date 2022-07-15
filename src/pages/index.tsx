@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
+import MainTemplate from 'components/templates/MainTemplate';
 
 const Home: NextPage = () => {
-  return <div className={''}>hello</div>;
+  return <MainTemplate title={'Home'}>hello</MainTemplate>;
 };
 
 export default Home;
