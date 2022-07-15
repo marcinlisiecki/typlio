@@ -22,7 +22,9 @@ const MainTemplate: FunctionComponent<Props> = ({
     <PageTemplate title={title}>
       {withHeader && <Header />}
 
-      <main className={`max-w-page mx-auto px-page ${customStyles}`}>{children}</main>
+      <main className={`max-w-page mx-auto px-page ${withHeader && 'mt-[120px]'} ${customStyles}`}>
+        {children}
+      </main>
     </PageTemplate>
   );
 };
