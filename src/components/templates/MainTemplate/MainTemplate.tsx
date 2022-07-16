@@ -8,6 +8,7 @@ interface OwnProps {
   customStyles?: string;
 
   withHeader?: boolean;
+  withHeaderPadding?: boolean;
 }
 
 type Props = OwnProps;
@@ -17,12 +18,17 @@ const MainTemplate: FunctionComponent<Props> = ({
   children,
   customStyles,
   withHeader = true,
+  withHeaderPadding = true,
 }) => {
   return (
     <PageTemplate title={title}>
       {withHeader && <Header />}
 
-      <main className={`max-w-page mx-auto px-page ${withHeader && 'mt-[120px]'} ${customStyles}`}>
+      <main
+        className={`max-w-page mx-auto px-page ${
+          withHeaderPadding && 'mt-[120px]'
+        } ${customStyles}`}
+      >
         {children}
       </main>
     </PageTemplate>

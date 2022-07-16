@@ -26,8 +26,8 @@ const Header: FunctionComponent<Props> = () => {
 
   return (
     <header
-      className={`h-[120px] w-full fixed top-0 left-0 bg-dark transition-[height] ${
-        isSmall && 'bg-dark/75 border-b border-b-gray-900 shadow-lg h-[60px] backdrop-blur-xl'
+      className={`h-[120px] w-full fixed top-0 left-0 transition-[height] ${
+        isSmall && 'bg-dark/50 border-b border-b-gray-900 shadow-lg h-[60px] backdrop-blur-xl'
       }`}
     >
       <div className={'max-w-page mx-auto h-full flex items-center justify-between px-page'}>

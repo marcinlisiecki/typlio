@@ -9,7 +9,7 @@ type Props = OwnProps;
 const HeaderNav: FunctionComponent<Props> = () => {
   return (
     <nav>
-      <ul className={'flex items-center gap-x-14'}>
+      <ul className={'flex items-center gap-x-12'}>
         <HeaderNavLink href={'/speed-test'}>Speed Test</HeaderNavLink>
         <HeaderNavLink href={'/learn'}>Learn</HeaderNavLink>
         <HeaderNavLink href={'/practice'}>Practice</HeaderNavLink>
