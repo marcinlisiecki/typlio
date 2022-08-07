@@ -34,6 +34,7 @@ const LoginPage: NextPage = () => {
           <div>
             <Label htmlFor={'email'}>Email Address</Label>
             <Input
+              error={errors.email?.message}
               id={'email'}
               type={'email'}
               placeholder={'john.doe@example.com'}
@@ -47,6 +48,7 @@ const LoginPage: NextPage = () => {
               <PageLink href={'/forgot-password'}>Forgot?</PageLink>
             </div>
             <Input
+              error={errors.password?.message}
               id={'password'}
               type={'password'}
               placeholder={'********'}
