@@ -1,4 +1,4 @@
-import yup from 'yup';
+import * as yup from 'yup';
 import { ErrorMessage } from 'lib/errors/constants';
 
 export const LoginValidationSchema: yup.SchemaOf<ILoginCredentials> = yup.object().shape({
