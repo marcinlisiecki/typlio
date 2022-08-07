@@ -13,6 +13,7 @@ export const ErrorCode = {
   PASSWORD_IS_REQUIRED: 'PASSWORD_IS_REQUIRED',
 
   SERVER_ERROR: 'SERVER_ERROR',
+  SOMETHING_WENT_WRONG: 'SOMETHING_WENT_WRONG',
 } as const;
 
 export const ErrorMessage = {
@@ -33,4 +34,5 @@ export const ErrorMessage = {
   [ErrorCode.PASSWORD_IS_REQUIRED]: 'Password is required',
 
   [ErrorCode.SERVER_ERROR]: 'Server error',
+  [ErrorCode.SOMETHING_WENT_WRONG]: 'Something went wrong...',
 } as const;
