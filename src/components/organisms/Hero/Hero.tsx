@@ -1,4 +1,6 @@
 import React, { FunctionComponent } from 'react';
+import Button from 'components/atoms/Button';
+import { ArrowSmRightIcon } from '@heroicons/react/outline';
 
 interface OwnProps {}
 type Props = OwnProps;
@@ -16,6 +18,19 @@ const Hero: FunctionComponent<Props> = () => {
           scelerisque orci vehicula ut. Aliquam feugiat nunc nisl. consequat cursus neque. consequat
           cursus neque.
         </p>
+        <div className={'flex items-center gap-x-10'}>
+          <Button>Create Account</Button>
+          <Button variant={'tertiary'}>
+            <p className={'flex items-center gap-x-2 group'}>
+              Learn more
+              <ArrowSmRightIcon
+                className={
+                  'w-[20px] h-[20px] stroke-gray-500 transition transform group-hover:translate-x-1'
+                }
+              />
+            </p>
+          </Button>
+        </div>
       </div>
     </section>
   );
