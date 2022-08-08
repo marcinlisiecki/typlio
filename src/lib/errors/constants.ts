@@ -14,6 +14,10 @@ export const ErrorCode = {
 
   SERVER_ERROR: 'SERVER_ERROR',
   SOMETHING_WENT_WRONG: 'SOMETHING_WENT_WRONG',
+
+  NO_CREDENTIALS_PROVIDED: 'NO_CREDENTIALS_PROVIDED',
+  WRONG_CREDENTIALS: 'WRONG_CREDENTIALS',
+  WRONG_PROVIDER: 'WRONG_PROVIDER',
 } as const;
 
 export const ErrorMessage = {
@@ -35,4 +39,8 @@ export const ErrorMessage = {
 
   [ErrorCode.SERVER_ERROR]: 'Server error',
   [ErrorCode.SOMETHING_WENT_WRONG]: 'Something went wrong...',
+
+  [ErrorCode.NO_CREDENTIALS_PROVIDED]: 'No credentials were provided',
+  [ErrorCode.WRONG_CREDENTIALS]: 'Wrong email or/and password',
+  [ErrorCode.WRONG_PROVIDER]: 'Account has been created with other provider',
 } as const;

@@ -1,4 +1,4 @@
-interface IValidationError {
+interface IApiError {
   message: string;
   path?: string | string[];
 }

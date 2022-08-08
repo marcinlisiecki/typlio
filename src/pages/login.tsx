@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
 
 import { ArrowSmRightIcon } from '@heroicons/react/outline';
@@ -13,8 +13,19 @@ import Button from 'components/atoms/Button';
 import Input from 'components/atoms/Input';
 import Label from 'components/atoms/Label';
 import Logo from 'components/atoms/Logo';
+import { signIn } from 'next-auth/react';
+import { isValidJson } from 'lib/utils';
+import { AuthService } from 'services/api/auth';
+import { getErrorMessage, parseApiErrors } from 'lib/errors';
+import { ErrorMessage } from 'lib/errors/constants';
+import { useRouter } from 'next/router';
 
 const LoginPage: NextPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [responseErrors, setResponseErrors] = useState<IApiError[]>([]);
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -22,7 +33,30 @@ const LoginPage: NextPage = () => {
   } = useForm<ILoginCredentials>({ resolver: yupResolver(LoginValidationSchema) });
 
   const onSubmit = async (data: ILoginCredentials) => {
-    console.log(data);
+    setIsLoading(true);
+    setResponseErrors([]);
+
+    try {
+      const response = await AuthService.CredentialsLogin(data);
+
+      if (response?.error) {
+        setResponseErrors(
+          isValidJson(response.error)
+            ? JSON.parse(response.error)
+            : [{ message: ErrorMessage.SOMETHING_WENT_WRONG }]
+        );
+        setIsLoading(false);
+
+        return;
+      }
+
+      await router.push('/');
+      return;
+    } catch (err) {
+      setResponseErrors(parseApiErrors(err));
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -34,7 +68,7 @@ const LoginPage: NextPage = () => {
           <div>
             <Label htmlFor={'email'}>Email Address</Label>
             <Input
-              error={errors.email?.message}
+              error={errors.email?.message || getErrorMessage(responseErrors, 'email')}
               id={'email'}
               type={'email'}
               placeholder={'john.doe@example.com'}
@@ -48,7 +82,7 @@ const LoginPage: NextPage = () => {
               <PageLink href={'/forgot-password'}>Forgot?</PageLink>
             </div>
             <Input
-              error={errors.password?.message}
+              error={errors.password?.message || getErrorMessage(responseErrors, 'password')}
               id={'password'}
               type={'password'}
               placeholder={'********'}
@@ -56,7 +90,14 @@ const LoginPage: NextPage = () => {
             />
           </div>
 
-          <Button>Login</Button>
+          <div className={'w-full flex flex-col'}>
+            <Button isLoading={isLoading}>Login</Button>
+            {getErrorMessage(responseErrors, null) && (
+              <p className={'mt-1.5 ml-1 text-danger-500 text-sm'}>
+                {getErrorMessage(responseErrors, null)}
+              </p>
+            )}
+          </div>
 
           <div className={'w-[130px] mx-auto bg-gray-800 h-[2px]'} />
 
