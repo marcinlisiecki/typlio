@@ -17,7 +17,7 @@ import { AuthService } from 'services/api/auth';
 import { getErrorMessage, parseApiErrors } from 'lib/errors';
 
 const RegisterPage: NextPage = () => {
-  const [responseErrors, setResponseErrors] = useState<any[]>([]);
+  const [responseErrors, setResponseErrors] = useState<IValidationError[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
