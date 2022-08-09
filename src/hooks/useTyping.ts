@@ -5,7 +5,8 @@ interface Props {
   text: string;
   onFinish?: () => void;
 }
-interface IStats {
+
+interface Stats {
   cpm: number;
   accuracy: number;
   wpmHistory: number[];
@@ -22,7 +23,7 @@ const useTyping = ({ text, onFinish }: Props) => {
 
   const [activeLetter, setActiveLetter] = useState<number>(0);
   const [mistakes, setMistakes] = useState<number[]>([]);
-  const [stats, setStats] = useState<IStats>({
+  const [stats, setStats] = useState<Stats>({
     cpm: 0,
     accuracy: 100,
     wpmHistory: [],
@@ -37,6 +38,8 @@ const useTyping = ({ text, onFinish }: Props) => {
   }, [activeLetter, mistakes]);
 
   useEffect(() => {
+    if (time === 0) return;
+
     const cpm = Math.round(((activeLetter - mistakes.length) / time) * 60);
     const accuracy = parseFloat((100 - (mistakes.length / activeLetter) * 100).toFixed(2));
 
@@ -45,7 +48,7 @@ const useTyping = ({ text, onFinish }: Props) => {
     const newWpmHistory = stats.wpmHistory;
     newWpmHistory[time - 1] = isNaN(wpm) ? newWpmHistory[time] : Math.round(cpm / 5);
 
-    setStats(() => ({
+    setStats((prev) => ({
       cpm,
       accuracy,
       wpmHistory: newWpmHistory,

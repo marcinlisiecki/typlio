@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { generateText } from 'lib/typing/generator';
 import useTyping from 'hooks/useTyping';
 import TypingDisplayText from 'components/molecules/TypingDisplayText';
+import TypingStats from 'components/molecules/TypingStats';
 
 interface OwnProps {}
 
@@ -23,13 +24,15 @@ const modeSlugToLabel = {
 
 const SpeedTestPage: FunctionComponent<Props> = () => {
   const [generatedText, setGeneratedText] = useState<string>('');
-  const { letters, resetTyping, activeLetter, mistakes } = useTyping({ text: generatedText });
+  const { letters, resetTyping, activeLetter, mistakes, stats, time } = useTyping({
+    text: '',
+  });
 
   const router = useRouter();
   const { mode } = router.query;
 
   useEffect(() => {
-    if (!mode || typeof mode !== 'string' || !Object.keys(modeSlugToLabel).includes(mode)) {
+    if (typeof mode !== 'string' || !Object.keys(modeSlugToLabel).includes(mode)) {
       router.push('/speed-test').then();
       return;
     }
@@ -39,7 +42,7 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
 
     setGeneratedText(text);
     resetTyping(text, mode);
-  }, [mode]);
+  }, [router]);
 
   if (typeof mode !== 'string' || !Object.keys(modeSlugToLabel).includes(mode)) return <div />;
 
@@ -55,8 +58,9 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
 
       <div className={'flex mt-10 gap-x-24'}>
         <TypingDisplayText activeLetter={activeLetter} letters={letters} mistakes={mistakes} />
-
-        <div className={'flex-1'}></div>
+        <div className={'flex-1'}>
+          <TypingStats stats={stats} time={time} />
+        </div>
       </div>
     </MainTemplate>
   );
