@@ -48,7 +48,7 @@ const useTyping = ({ text, onFinish }: Props) => {
     const newWpmHistory = stats.wpmHistory;
     newWpmHistory[time - 1] = isNaN(wpm) ? newWpmHistory[time] : Math.round(cpm / 5);
 
-    setStats((prev) => ({
+    setStats(() => ({
       cpm,
       accuracy,
       wpmHistory: newWpmHistory,
@@ -122,7 +122,7 @@ const useTyping = ({ text, onFinish }: Props) => {
     if (state === 'FINISHED') {
       onFinish && onFinish();
     }
-  }, [state]);
+  }, [onFinish, state]);
 
   const resetTyping = (newText: string, newMode: string) => {
     setActiveLetter(0);

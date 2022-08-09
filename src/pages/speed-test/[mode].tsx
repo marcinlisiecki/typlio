@@ -5,6 +5,7 @@ import { generateText } from 'lib/typing/generator';
 import useTyping from 'hooks/useTyping';
 import TypingDisplayText from 'components/molecules/TypingDisplayText';
 import TypingStats from 'components/molecules/TypingStats';
+import Alert from 'components/molecules/Alert';
 
 interface OwnProps {}
 
@@ -60,6 +61,11 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
         <TypingDisplayText activeLetter={activeLetter} letters={letters} mistakes={mistakes} />
         <div className={'flex-1'}>
           <TypingStats stats={stats} time={time} />
+
+          <Alert variant={'info'}>
+            You can use <strong className={'text-primary-500'}>ctrl + backspace</strong> to erase
+            entire word.
+          </Alert>
         </div>
       </div>
     </MainTemplate>
