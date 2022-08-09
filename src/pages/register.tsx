@@ -15,10 +15,13 @@ import Label from 'components/atoms/Label';
 import Logo from 'components/atoms/Logo';
 import { AuthService } from 'services/api/auth';
 import { getErrorMessage, parseApiErrors } from 'lib/errors';
+import { useRouter } from 'next/router';
 
 const RegisterPage: NextPage = () => {
   const [responseErrors, setResponseErrors] = useState<IApiError[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const {
     register,
@@ -31,6 +34,8 @@ const RegisterPage: NextPage = () => {
 
     try {
       await AuthService.CredentialsRegister(data);
+      await AuthService.CredentialsLogin(data);
+      await router.push('/');
     } catch (err) {
       setResponseErrors(parseApiErrors(err));
     }

@@ -26,7 +26,7 @@ const Header: FunctionComponent<Props> = () => {
 
   return (
     <header
-      className={`h-[120px] w-full fixed top-0 left-0 transition-[height] ${
+      className={`h-[120px] w-full fixed top-0 left-0 transition-[height] z-[200] ${
         isSmall && 'bg-dark/50 border-b border-b-gray-900 shadow-lg h-[60px] backdrop-blur-xl'
       }`}
     >
