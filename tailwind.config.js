@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+        mono: ['Ubuntu Mono', ...defaultTheme.fontFamily.mono],
       },
       padding: {
         page: '36px',

@@ -4,7 +4,7 @@ import Header from 'components/organisms/Header';
 
 interface OwnProps {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
   customStyles?: string;
 
   withHeader?: boolean;

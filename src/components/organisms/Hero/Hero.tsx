@@ -2,11 +2,15 @@ import React, { FunctionComponent } from 'react';
 
 import Button from 'components/atoms/Button';
 import { ArrowSmRightIcon } from '@heroicons/react/outline';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 interface OwnProps {}
 type Props = OwnProps;
 
 const Hero: FunctionComponent<Props> = () => {
+  const { data: session } = useSession();
+
   return (
     <section className={'h-screen flex items-center justify-between w-full'}>
       <div className={'w-1/2 flex flex-col gap-y-8'}>
@@ -20,7 +24,19 @@ const Hero: FunctionComponent<Props> = () => {
           cursus neque.
         </p>
         <div className={'flex items-center gap-x-10'}>
-          <Button>Create Account</Button>
+          {session?.user ? (
+            <Link href={'/speed-test'}>
+              <a>
+                <Button>Speed Test</Button>
+              </a>
+            </Link>
+          ) : (
+            <Link href={'/register'}>
+              <a>
+                <Button>Create Account</Button>
+              </a>
+            </Link>
+          )}
           <Button variant={'tertiary'}>
             <p className={'flex items-center gap-x-2 group'}>
               Learn more

@@ -14,7 +14,7 @@ const DropdownMenuLink: FunctionComponent<Props> = ({ href, onClick, children })
     <Link href={href}>
       <a
         className={
-          'text-sm text-text-secondary hover:text-text-primary rounded-md cursor-pointer w-full flex items-center justify-start gap-x-3'
+          'text-sm text-text-secondary hover:text-text-primary cursor-pointer w-full flex items-center gap-x-3'
         }
         onClick={onClick}
       >
