@@ -108,7 +108,7 @@ const TypingDisplayText: FunctionComponent<Props> = ({ letters, activeLetter, mi
 
   return (
     <div className={'relative flex-[2]'}>
-      <div className={'absolute bottom-0 w-full h-8 z-10 bg-dark/75'} />
+      <div className={'absolute bottom-12 w-full h-16 z-10 bg-dark/75'} />
       <div
         className={
           'font-mono font-bold text-2xl tracking-wide max-h-[160px] overflow-y-scroll no-scrollbar pb-32 flex flex-wrap'

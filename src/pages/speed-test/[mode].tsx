@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import MainTemplate from 'components/templates/MainTemplate';
 import { useRouter } from 'next/router';
 import { generateText } from 'lib/typing/generator';
@@ -6,6 +6,7 @@ import useTyping from 'hooks/useTyping';
 import TypingDisplayText from 'components/molecules/TypingDisplayText';
 import TypingStats from 'components/molecules/TypingStats';
 import Alert from 'components/molecules/Alert';
+import SpeedTestResults from 'components/molecules/SpeedTestResults';
 
 interface OwnProps {}
 
@@ -25,7 +26,7 @@ const modeSlugToLabel = {
 
 const SpeedTestPage: FunctionComponent<Props> = () => {
   const [generatedText, setGeneratedText] = useState<string>('');
-  const { letters, resetTyping, activeLetter, mistakes, stats, time } = useTyping({
+  const { letters, resetTyping, activeLetter, mistakes, stats, time, state } = useTyping({
     text: '',
   });
 
@@ -47,27 +48,64 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
 
   if (typeof mode !== 'string' || !Object.keys(modeSlugToLabel).includes(mode)) return <div />;
 
+  const handleNewText = () => {
+    let text = '';
+
+    const numberOfWords = mode.includes('w') ? parseInt(mode) : 500;
+    text = generateText(numberOfWords);
+
+    setGeneratedText(text);
+    resetTyping(text, mode);
+  };
+
+  const handleRepeatSame = () => {
+    resetTyping(generatedText, mode);
+  };
+
+  // @ts-ignore
+  const modeLabel: any = modeSlugToLabel[mode];
+
   return (
     <MainTemplate title={'Speed test'}>
-      <div>
-        <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
-          {/* @ts-ignore */}
-          SPEED TEST {'>'} {modeSlugToLabel[mode]}
-        </p>
-        <h1 className={'text-2xl font-bold mt-2'}>Type as fast as you can!</h1>
-      </div>
+      {state !== 'FINISHED' ? (
+        <>
+          <div>
+            <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
+              SPEED TEST {'>'} {modeLabel}
+            </p>
+            <h1 className={'text-2xl font-bold mt-2'}>Type as fast as you can!</h1>
+          </div>
 
-      <div className={'flex mt-10 gap-x-24'}>
-        <TypingDisplayText activeLetter={activeLetter} letters={letters} mistakes={mistakes} />
-        <div className={'flex-1'}>
-          <TypingStats stats={stats} time={time} />
+          <div className={'flex mt-10 gap-x-24'}>
+            <TypingDisplayText activeLetter={activeLetter} letters={letters} mistakes={mistakes} />
 
-          <Alert variant={'info'}>
-            You can use <strong className={'text-primary-500'}>ctrl + backspace</strong> to erase
-            entire word.
-          </Alert>
+            <div className={'flex-1'}>
+              <TypingStats stats={stats} time={time} />
+
+              <Alert variant={'info'}>
+                You can use <strong className={'text-primary-500'}>ctrl + backspace</strong> to
+                erase entire word.
+              </Alert>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className={''}>
+          <div>
+            <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
+              SPEED TEST {'>'} {modeLabel} {'>'} RESULTS
+            </p>
+            <h1 className={'text-2xl font-bold mt-2'}>Typing speed test results</h1>
+          </div>
+
+          <SpeedTestResults
+            stats={stats}
+            time={time}
+            handleNewText={handleNewText}
+            handleRepeatSame={handleRepeatSame}
+          />
         </div>
-      </div>
+      )}
     </MainTemplate>
   );
 };
