@@ -69,7 +69,7 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
     <MainTemplate title={'Speed test'}>
       {state !== 'FINISHED' ? (
         <>
-          <div>
+          <div className={'pt-10'}>
             <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
               SPEED TEST {'>'} {modeLabel}
             </p>
@@ -90,7 +90,7 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
           </div>
         </>
       ) : (
-        <div className={''}>
+        <div className={'pt-10'}>
           <div>
             <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
               SPEED TEST {'>'} {modeLabel} {'>'} RESULTS
