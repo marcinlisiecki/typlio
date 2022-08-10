@@ -18,6 +18,8 @@ export const ErrorCode = {
   NO_CREDENTIALS_PROVIDED: 'NO_CREDENTIALS_PROVIDED',
   WRONG_CREDENTIALS: 'WRONG_CREDENTIALS',
   WRONG_PROVIDER: 'WRONG_PROVIDER',
+
+  NOT_AUTHENTICATED: 'NOT_AUTHENTICATED',
 } as const;
 
 export const ErrorMessage = {
@@ -43,4 +45,6 @@ export const ErrorMessage = {
   [ErrorCode.NO_CREDENTIALS_PROVIDED]: 'No credentials were provided',
   [ErrorCode.WRONG_CREDENTIALS]: 'Wrong email or/and password',
   [ErrorCode.WRONG_PROVIDER]: 'Account has been created with other provider',
+
+  [ErrorCode.NOT_AUTHENTICATED]: 'You have to be authenticated to perform this action',
 } as const;

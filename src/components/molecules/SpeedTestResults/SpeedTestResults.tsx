@@ -31,6 +31,7 @@ import PageLink from 'components/atoms/PageLink';
 import Alert from 'components/molecules/Alert';
 import { useRouter } from 'next/router';
 import LoadingSpinner from 'components/atoms/LoadingSpinner';
+import { getErrorMessage } from 'lib/errors';
 
 interface OwnProps {
   stats: {
@@ -42,6 +43,10 @@ interface OwnProps {
 
   handleNewText: () => void;
   handleRepeatSame: () => void;
+
+  isLoading: boolean;
+  isSuccess: boolean;
+  errors: IApiError[];
 }
 
 type Props = OwnProps;
@@ -51,6 +56,9 @@ const SpeedTestResults: FunctionComponent<Props> = ({
   time,
   handleNewText,
   handleRepeatSame,
+  isSuccess,
+  isLoading,
+  errors,
 }) => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -202,6 +210,27 @@ const SpeedTestResults: FunctionComponent<Props> = ({
             to save the results
           </Alert>
         )}
+
+        <div className={'mt-8'}>
+          {isLoading && (
+            <p className={'flex items-start text-sm text-gray-500 font-medium '}>
+              <LoadingSpinner wrapperStyles={'scale-[0.8]'} />
+              Saving results
+            </p>
+          )}
+          {isSuccess && (
+            <p className={'text-sm text-success-500 font-medium flex items-start gap-x-2'}>
+              <CheckCircleIcon className={'w-5 h-5 -ml-1.5 stroke-success-500'} />
+              Results saved
+            </p>
+          )}
+          {errors.length > 0 && (
+            <p className={'text-sm text-danger-500 font-medium flex items-start gap-x-2'}>
+              <XCircleIcon className={'w-5 h-5 -ml-1.5 stroke-danger-500 shrink-0'} />
+              {getErrorMessage(errors, null)}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

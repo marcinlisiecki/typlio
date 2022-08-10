@@ -122,7 +122,7 @@ const useTyping = ({ text, onFinish }: Props) => {
     if (state === 'FINISHED') {
       onFinish && onFinish();
     }
-  }, [onFinish, state]);
+  }, [state]);
 
   const resetTyping = (newText: string, newMode: string) => {
     setActiveLetter(0);

@@ -7,6 +7,9 @@ import TypingDisplayText from 'components/molecules/TypingDisplayText';
 import TypingStats from 'components/molecules/TypingStats';
 import Alert from 'components/molecules/Alert';
 import SpeedTestResults from 'components/molecules/SpeedTestResults';
+import { useSession } from 'next-auth/react';
+import { parseApiErrors } from 'lib/errors';
+import { SpeedTestService } from 'services/api/speed-test';
 
 interface OwnProps {}
 
@@ -28,9 +31,16 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
   const [generatedText, setGeneratedText] = useState<string>('');
   const { letters, resetTyping, activeLetter, mistakes, stats, time, state } = useTyping({
     text: '',
+    onFinish: handleSaveOnFinish,
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [errors, setErrors] = useState<IApiError[]>([]);
+
   const router = useRouter();
+  const { data: session } = useSession();
+
   const { mode } = router.query;
 
   useEffect(() => {
@@ -61,6 +71,28 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
   const handleRepeatSame = () => {
     resetTyping(generatedText, mode);
   };
+
+  async function handleSaveOnFinish() {
+    if (!session) return;
+    setLoading(true);
+
+    try {
+      await SpeedTestService.Save({
+        mode: mode as string,
+        time,
+        mistakes: mistakes.length,
+        cpm: stats.cpm,
+        accuracy: stats.accuracy,
+      });
+
+      setSuccess(true);
+    } catch (err: any) {
+      setSuccess(false);
+      setErrors(parseApiErrors(err));
+    }
+
+    setLoading(false);
+  }
 
   // @ts-ignore
   const modeLabel: any = modeSlugToLabel[mode];
@@ -103,6 +135,9 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
             time={time}
             handleNewText={handleNewText}
             handleRepeatSame={handleRepeatSame}
+            isLoading={loading}
+            isSuccess={success}
+            errors={errors}
           />
         </div>
       )}

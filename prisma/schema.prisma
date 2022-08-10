@@ -64,7 +64,7 @@ model SpeedTest {
 	id            String    @id @default(auto()) @map("_id") @db.ObjectId
 	mode          String
 	time          Int
-	cpm           String
+	cpm           Int
 	mistakes      Int
 	accuracy      Float
 
