@@ -4,6 +4,7 @@ import { GetServerSidePropsContext } from 'next';
 import { prisma } from 'lib/db/prisma';
 import { User } from 'next-auth';
 import Button from 'components/atoms/Button';
+import { getSession, useSession } from 'next-auth/react';
 
 interface IUserProfile {
   username: string;
@@ -12,11 +13,14 @@ interface IUserProfile {
 
 interface OwnProps {
   user: IUserProfile | null;
+  isOwnProfile: boolean;
 }
 
 type Props = OwnProps;
 
-const UserProfilePage: FunctionComponent<Props> = ({ user }) => {
+const UserProfilePage: FunctionComponent<Props> = ({ user, isOwnProfile }) => {
+  const { data: session } = useSession();
+
   if (!user) {
     return (
       <MainTemplate title={'User not found :('}>
@@ -53,8 +57,20 @@ const UserProfilePage: FunctionComponent<Props> = ({ user }) => {
         </div>
 
         <div className={'flex gap-x-4 items-start'}>
-          <Button variant={'secondary'}>Add Friend</Button>
-          <Button variant={'secondary'}>Follow</Button>
+          {isOwnProfile ? (
+            <>
+              <Button variant={'secondary'}>Edit Profile</Button>
+            </>
+          ) : (
+            <>
+              {session && (
+                <>
+                  <Button variant={'secondary'}>Add Friend</Button>
+                  <Button variant={'secondary'}>Follow</Button>
+                </>
+              )}
+            </>
+          )}
         </div>
       </section>
     </MainTemplate>
@@ -62,17 +78,24 @@ const UserProfilePage: FunctionComponent<Props> = ({ user }) => {
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const session = await getSession(context);
+
   const username = context.query.username as string;
   if (!username) {
-    return { props: { user: null, status: 404 } };
+    return { props: { user: null, status: 404, isOwnProfile: false } };
   }
 
   const user = await prisma.user.findFirst({
     where: { username },
     select: { username: true, id: true },
   });
+  if (!user) {
+    return { props: { user: null, status: 404, isOwnProfile: false } };
+  }
 
-  return { props: { user: JSON.parse(JSON.stringify(user)), status: 200 } };
+  const isOwnProfile = session?.user.id === user.id || false;
+
+  return { props: { user: JSON.parse(JSON.stringify(user)), status: 200, isOwnProfile } };
 };
 
 export default UserProfilePage;
