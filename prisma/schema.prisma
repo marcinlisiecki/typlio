@@ -51,6 +51,33 @@ model User {
   emailVerified DateTime?
   image         String?
 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  speedTests    SpeedTest[]
+
   accounts      Account[]
   sessions      Session[]
 }
+
+model SpeedTest {
+	id            String    @id @default(auto()) @map("_id") @db.ObjectId
+	mode          String
+	time          Int
+	cpm           String
+	mistakes      Int
+	accuracy      Float
+
+	user          User      @relation(fields: [userId], references: [id])
+	userId        String
+
+	createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+
+
+
+
+
+
