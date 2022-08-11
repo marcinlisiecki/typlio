@@ -63,7 +63,7 @@ const HeaderNav: FunctionComponent<Props> = () => {
                     <UserCircleIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />
                     Profile
                   </DropdownMenuLink>
-                  <DropdownMenuLink href={'/'}>
+                  <DropdownMenuLink href={`/user/${session.user.username}/history`}>
                     <ClockIcon className={'stroke-gray-600 w-[18px] h-[18px]'} /> History
                   </DropdownMenuLink>
                   <DropdownMenuLink href={'/'}>
