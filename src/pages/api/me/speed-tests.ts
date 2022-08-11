@@ -4,6 +4,7 @@ import { ErrorMessage } from 'lib/errors/constants';
 import { getSession } from 'next-auth/react';
 import { prisma } from 'lib/db/prisma';
 import withAuth from 'middleware/withAuth';
+import { NewSpeedTestValidationSchema } from 'lib/validation/speed-test';
 
 const handler = nc({
   onError: (err, req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {
@@ -16,15 +17,22 @@ const handler = nc({
     const data = req.body;
     const session = await getSession({ req });
 
+    try {
+      await NewSpeedTestValidationSchema.validate({ ...data }, { abortEarly: false });
+    } catch (err: any) {
+      const errors = err.inner.map((err: any) => ({ message: err.message, path: err.path }));
+      return res.status(422).json({ errors });
+    }
+
     const { time, accuracy, cpm, mistakes, mode } = data;
 
     await prisma.speedTest.create({
       data: {
         userId: session?.user.id as string,
-        time: time || 0,
-        accuracy: accuracy || 0,
-        cpm: cpm || 0,
-        mistakes: mistakes || 0,
+        time,
+        accuracy,
+        cpm,
+        mistakes,
         mode,
       },
     });
