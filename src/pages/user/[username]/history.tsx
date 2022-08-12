@@ -20,6 +20,8 @@ interface OwnProps {
   status: number;
 }
 
+type SortBy = 'newest' | 'oldest' | 'fastest' | 'slowest' | 'best-accuracy' | 'worst-accuracy';
+
 type Props = OwnProps;
 
 const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
@@ -32,6 +34,7 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
     '1m',
     '2m',
   ]);
+  const [sortBy, setSortBy] = useState<SortBy>('newest');
 
   if (!history) {
     return (
@@ -53,7 +56,26 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
     else setShowModes((prev) => [...prev, mode]);
   };
 
+  const handleChangeSorting = (e: FormEvent<HTMLSelectElement>) => {
+    const newSortBy = (e.target as HTMLSelectElement).value as SortBy;
+    setSortBy(newSortBy);
+  };
+
   const filteredHistory = history.filter((item: IHistory) => showModes.includes(item.mode));
+  const sortedHistory = filteredHistory.sort((a: IHistory, b: IHistory) => {
+    if (sortBy === 'newest')
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    else if (sortBy === 'oldest')
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    else if (sortBy === 'fastest') return new Date(b.cpm).getTime() - new Date(a.cpm).getTime();
+    else if (sortBy === 'slowest') return new Date(a.cpm).getTime() - new Date(b.cpm).getTime();
+    else if (sortBy === 'best-accuracy')
+      return new Date(b.accuracy).getTime() - new Date(a.accuracy).getTime();
+    else if (sortBy === 'worst-accuracy')
+      return new Date(a.accuracy).getTime() - new Date(b.accuracy).getTime();
+
+    return 1;
+  });
 
   return (
     <MainTemplate title={'History'}>
@@ -64,13 +86,13 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
         <section className={'flex-1'}>
           <div className={'flex flex-col'}>
             <Label htmlFor={'sort'}>Sort by</Label>
-            <Select id={'sort'}>
-              <option>Newest</option>
-              <option>Oldest</option>
-              <option>Fastest</option>
-              <option>Slowest</option>
-              <option>Best accuracy</option>
-              <option>Worst accuracy</option>
+            <Select id={'sort'} value={sortBy} onChange={handleChangeSorting}>
+              <option value={'newest'}>Newest</option>
+              <option value={'oldest'}>Oldest</option>
+              <option value={'fastest'}>Fastest</option>
+              <option value={'slowest'}>Slowest</option>
+              <option value={'best-accuracy'}>Best accuracy</option>
+              <option value={'worst-accuracy'}>Worst accuracy</option>
             </Select>
           </div>
 
@@ -130,7 +152,7 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
           </div>
         </section>
         <section className={'bg-light border border-gray-900 rounded-lg p-5 shadow-xl flex-[4]'}>
-          {filteredHistory.map(({ id, mode, createdAt, cpm, accuracy }, index) => (
+          {sortedHistory.map(({ id, mode, createdAt, cpm, accuracy }, index) => (
             <div
               key={id}
               className={`${index > 0 ? 'border-t border-t-gray-900/80 pt-4 mt-4' : ''}`}
