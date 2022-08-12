@@ -1,9 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FormEvent, FunctionComponent, useState } from 'react';
 import MainTemplate from 'components/templates/MainTemplate';
 import { NextPageContext } from 'next';
 import { prisma } from 'lib/db/prisma';
 import Label from 'components/atoms/Label';
 import Input from 'components/atoms/Input';
+import Checkbox from 'components/atoms/Checkbox';
+import Select from 'components/atoms/Select';
 
 interface IHistory {
   cpm: number;
@@ -21,6 +23,16 @@ interface OwnProps {
 type Props = OwnProps;
 
 const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
+  const [showModes, setShowModes] = useState<string[]>([
+    '10w',
+    '50w',
+    '100w',
+    '200w',
+    '0.5m',
+    '1m',
+    '2m',
+  ]);
+
   if (!history) {
     return (
       <MainTemplate title={'History not found :('}>
@@ -34,120 +46,95 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
     );
   }
 
+  const handleToggleMode = (e: FormEvent<HTMLInputElement>) => {
+    const mode: string = (e.target as HTMLInputElement).name;
+
+    if (showModes.includes(mode)) setShowModes((prev) => prev.filter((item) => item !== mode));
+    else setShowModes((prev) => [...prev, mode]);
+  };
+
+  const filteredHistory = history.filter((item: IHistory) => showModes.includes(item.mode));
+
   return (
     <MainTemplate title={'History'}>
       <section className={'pt-10 mb-10'}>
         <h1 className={'font-bold text-2xl'}>History</h1>
       </section>
-      <section className={'flex gap-x-12'}>
+      <section className={'flex gap-x-12 items-start'}>
         <section className={'flex-1'}>
           <div className={'flex flex-col'}>
             <Label htmlFor={'sort'}>Sort by</Label>
-            <select
-              id={'sort'}
-              className={
-                'form-select bg-light border border-gray-900 rounded-md px-4 py-3 text-sm outline-none focus:ring focus:border-primary-500 transition shadow-md'
-              }
-            >
+            <Select id={'sort'}>
               <option>Newest</option>
               <option>Oldest</option>
               <option>Fastest</option>
               <option>Slowest</option>
               <option>Best accuracy</option>
               <option>Worst accuracy</option>
-            </select>
+            </Select>
           </div>
 
           <div className={'mt-8'}>
             <p className={'text-gray-300 mb-[6px] ml-1 text-sm'}>Mode</p>
-            <div className={'flex gap-x-1 mt-2'}>
-              <input
-                type={'checkbox'}
+            <div className={'flex flex-col gap-y-1'}>
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'10 Words'}
                 id={'10w'}
                 name={'10w'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('10w')}
               />
-              <Label htmlFor={'10w'}>10 Words</Label>
-            </div>
-
-            <div className={'flex gap-x-1 mt-1'}>
-              <input
-                type={'checkbox'}
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'50 Words'}
                 id={'50w'}
                 name={'50w'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('50w')}
               />
-              <Label htmlFor={'50w'}>50 Words</Label>
-            </div>
-
-            <div className={'flex gap-x-1 mt-1'}>
-              <input
-                type={'checkbox'}
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'100 Words'}
                 id={'100w'}
                 name={'100w'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('100w')}
               />
-              <Label htmlFor={'100w'}>100 Words</Label>
-            </div>
-
-            <div className={'flex gap-x-1 mt-1'}>
-              <input
-                type={'checkbox'}
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'200 Words'}
                 id={'200w'}
                 name={'200w'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('200w')}
               />
-              <Label htmlFor={'200w'}>200 Words</Label>
-            </div>
-
-            <div className={'flex gap-x-1 mt-1'}>
-              <input
-                type={'checkbox'}
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'30 Seconds'}
                 id={'0.5m'}
                 name={'0.5m'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('0.5m')}
               />
-              <Label htmlFor={'0.5m'}>30 Seconds</Label>
-            </div>
-
-            <div className={'flex gap-x-1 mt-1'}>
-              <input
-                type={'checkbox'}
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'1 Minute'}
                 id={'1m'}
                 name={'1m'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('1m')}
               />
-              <Label htmlFor={'1m'}>1 Minute</Label>
-            </div>
-
-            <div className={'flex gap-x-1 mt-1'}>
-              <input
-                type={'checkbox'}
+              <Checkbox
+                onClick={handleToggleMode}
+                label={'2 Minutes'}
                 id={'2m'}
                 name={'2m'}
-                className={
-                  'form-checkbox border-gray-900 rounded-md bg-light w-5 h-5 transition !ring-offset-0 !ring-0 cursor-pointer'
-                }
+                checked={showModes.includes('2m')}
               />
-              <Label htmlFor={'2m'}>2 Minutes</Label>
             </div>
           </div>
         </section>
         <section className={'bg-light border border-gray-900 rounded-lg p-5 shadow-xl flex-[4]'}>
-          {history.map(({ id, mode, createdAt, cpm, accuracy }, index) => (
-            <div key={id} className={`${index > 0 && 'border-t border-t-gray-900/80 pt-4 mt-4'}`}>
+          {filteredHistory.map(({ id, mode, createdAt, cpm, accuracy }, index) => (
+            <div
+              key={id}
+              className={`${index > 0 ? 'border-t border-t-gray-900/80 pt-4 mt-4' : ''}`}
+            >
               <div className={'flex justify-between'}>
                 <div className={'flex gap-x-4'}>
                   <p className={'text-sm text-text-tertiary/90 font-medium'}>ID {id}</p>
