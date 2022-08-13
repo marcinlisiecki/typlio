@@ -5,12 +5,13 @@ import { SPEED_TEST_MODES } from 'lib/constants';
 import { useRouter } from 'next/router';
 import { prisma } from 'lib/db/prisma';
 
+import UserHistoryItem from 'components/molecules/UserHistoryItem';
 import MainTemplate from 'components/templates/MainTemplate';
+import PageError from 'components/organisms/PageError';
 import Checkbox from 'components/atoms/Checkbox';
 import PageLink from 'components/atoms/PageLink';
 import Select from 'components/atoms/Select';
 import Label from 'components/atoms/Label';
-import UserHistoryItem from 'components/molecules/UserHistoryItem';
 
 interface OwnProps {
   history: IHistory[] | null;
@@ -27,17 +28,8 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
 
   const { username } = useRouter().query;
 
-  if (!history) {
-    return (
-      <MainTemplate title={'History not found :('}>
-        <div className={'mx-auto py-[20vh] text-center'}>
-          <h1 className={'text-4xl font-bold'}>404</h1>
-          <h2 className={'mt-4 text-text-secondary font-medium'}>
-            Whoops... I can&apos;t find the user&apos;s history :(
-          </h2>
-        </div>
-      </MainTemplate>
-    );
+  if (!history || status !== 200) {
+    return <PageError status={status} />;
   }
 
   const handleToggleMode = (e: FormEvent<HTMLInputElement>) => {
@@ -121,6 +113,11 @@ export const getServerSideProps = async (context: NextPageContext) => {
   }
 
   try {
+    const user = await prisma.user.findFirst({ where: { username } });
+    if (!user) {
+      return { props: { history: null, status: 404 } };
+    }
+
     const history = await prisma.speedTest.findMany({
       where: { user: { username } },
       select: {

@@ -5,6 +5,7 @@ import { getSession, useSession } from 'next-auth/react';
 import { prisma } from 'lib/db/prisma';
 
 import MainTemplate from 'components/templates/MainTemplate';
+import PageError from 'components/organisms/PageError';
 import Button from 'components/atoms/Button';
 
 interface IUserProfile {
@@ -15,24 +16,16 @@ interface IUserProfile {
 interface OwnProps {
   user: IUserProfile | null;
   isOwnProfile: boolean;
+  status: number;
 }
 
 type Props = OwnProps;
 
-const UserProfilePage: FunctionComponent<Props> = ({ user, isOwnProfile }) => {
+const UserProfilePage: FunctionComponent<Props> = ({ user, isOwnProfile, status }) => {
   const { data: session } = useSession();
 
-  if (!user) {
-    return (
-      <MainTemplate title={'User not found :('}>
-        <div className={'mx-auto py-[20vh] text-center'}>
-          <h1 className={'text-4xl font-bold'}>404</h1>
-          <h2 className={'mt-4 text-text-secondary font-medium'}>
-            Whoops... I can&apos;t find the user :(
-          </h2>
-        </div>
-      </MainTemplate>
-    );
+  if (!user || status !== 200) {
+    return <PageError status={status} />;
   }
 
   return (
