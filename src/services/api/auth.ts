@@ -1,6 +1,7 @@
-import { AxiosResponse } from 'axios';
-import api from 'lib/api';
 import { signIn } from 'next-auth/react';
+import { AxiosResponse } from 'axios';
+
+import api from 'lib/api';
 
 export const AuthService = {
   CredentialsRegister: (credentials: IRegisterCredentials): Promise<AxiosResponse> =>

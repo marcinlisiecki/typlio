@@ -1,10 +1,12 @@
-import nc, { NextHandler } from 'next-connect';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ErrorMessage } from 'lib/errors/constants';
+
+import nc, { NextHandler } from 'next-connect';
 import { getSession } from 'next-auth/react';
-import { prisma } from 'lib/db/prisma';
-import withAuth from 'middleware/withAuth';
+
 import { NewSpeedTestValidationSchema } from 'lib/validation/speed-test';
+import { ErrorMessage } from 'lib/errors/constants';
+import withAuth from 'middleware/withAuth';
+import { prisma } from 'lib/db/prisma';
 
 const handler = nc({
   onError: (err, req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {

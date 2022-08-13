@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+
 import nc, { NextHandler } from 'next-connect';
+
 import { RegisterValidationSchema } from 'lib/validation/user';
 import { ErrorMessage } from 'lib/errors/constants';
-import { prisma } from 'lib/db/prisma';
 import { hashPassword } from 'lib/auth/password';
+import { prisma } from 'lib/db/prisma';
 
 const handler = nc({
   onError: (err, req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {

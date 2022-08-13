@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { NextHandler } from 'next-connect';
+
 import { getSession } from 'next-auth/react';
+import { NextHandler } from 'next-connect';
+
 import { ErrorMessage } from 'lib/errors/constants';
 
 const withAuth = async (req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {
