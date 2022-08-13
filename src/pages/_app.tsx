@@ -1,5 +1,6 @@
 import 'styles/globals.css';
 import type { AppProps } from 'next/app';
+import NextNProgress from 'nextjs-progressbar';
 
 import { SessionProvider } from 'next-auth/react';
 
@@ -14,9 +15,12 @@ import '@fontsource/ubuntu-mono/700.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <>
+      <NextNProgress color={'#3b82f6'} height={2} options={{ showSpinner: false }} />
+      <SessionProvider session={pageProps.session}>
+        <Component {...pageProps} />
+      </SessionProvider>
+    </>
   );
 }
 

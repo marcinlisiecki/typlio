@@ -3,9 +3,11 @@ import MainTemplate from 'components/templates/MainTemplate';
 import { NextPageContext } from 'next';
 import { prisma } from 'lib/db/prisma';
 import Label from 'components/atoms/Label';
-import Input from 'components/atoms/Input';
 import Checkbox from 'components/atoms/Checkbox';
 import Select from 'components/atoms/Select';
+import username from 'pages/user/[username]/index';
+import { useRouter } from 'next/router';
+import PageLink from 'components/atoms/PageLink';
 
 interface IHistory {
   cpm: number;
@@ -35,6 +37,8 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
     '2m',
   ]);
   const [sortBy, setSortBy] = useState<SortBy>('newest');
+
+  const { username } = useRouter().query;
 
   if (!history) {
     return (
@@ -80,6 +84,7 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
   return (
     <MainTemplate title={'History'}>
       <section className={'pt-10 mb-10'}>
+        <PageLink href={`/user/${username}`}>{username}</PageLink>
         <h1 className={'font-bold text-2xl'}>History</h1>
       </section>
       <section className={'flex gap-x-12 items-start'}>
