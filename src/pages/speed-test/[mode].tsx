@@ -98,7 +98,7 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
         <>
           <div className={'pt-10'}>
             <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
-              SPEED TEST {'>'} {modeLabel}
+              SPEED TEST {'>'} {modeLabel.toUpperCase()}
             </p>
             <h1 className={'text-2xl font-bold mt-2'}>Type as fast as you can!</h1>
           </div>
@@ -120,7 +120,7 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
         <div className={'pt-10'}>
           <div>
             <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
-              SPEED TEST {'>'} {modeLabel} {'>'} RESULTS
+              SPEED TEST {'>'} {modeLabel.toUpperCase()} {'>'} RESULTS
             </p>
             <h1 className={'text-2xl font-bold mt-2'}>Typing speed test results</h1>
           </div>
