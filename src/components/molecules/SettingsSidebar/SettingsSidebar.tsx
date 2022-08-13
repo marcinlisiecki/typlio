@@ -46,7 +46,7 @@ const SettingsSidebar: FunctionComponent<Props> = () => {
             <li key={path}>
               <Link href={path}>
                 <a
-                  className={`text-text-tertiary font-medium hover:text-text-secondary transition transform hover:translate-x-1 inline-block ${
+                  className={`text-text-tertiary font-medium hover:text-text-secondary transition inline-block ${
                     isActive(path) && '!text-text-primary'
                   }`}
                 >
