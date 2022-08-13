@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { SPEED_TEST_MODES } from 'lib/constants';
 
 import MainTemplate from 'components/templates/MainTemplate';
+import PageHeading from 'components/molecules/PageHeading';
 
 interface OwnProps {}
 type Props = OwnProps;
@@ -11,12 +12,8 @@ type Props = OwnProps;
 const SelectSpeedTestModePage: FunctionComponent<Props> = () => {
   return (
     <MainTemplate title={'Select mode'}>
-      <div className={'pt-10'}>
-        <p className={'text-sm font-semibold text-text-tertiary tracking-widest font-mono'}>
-          SPEED TEST
-        </p>
-        <h1 className={'font-bold text-2xl pt-1'}>Choose the mode</h1>
-      </div>
+      <PageHeading steps={['SPEED TEST']}>Choose the mode</PageHeading>
+
       <div className={'flex flex-wrap gap-10 mt-10 justify-start'}>
         {SPEED_TEST_MODES.map(({ label, name, description }) => (
           <Link href={`/speed-test/${name}`} key={name}>

@@ -14,6 +14,7 @@ import SpeedTestResults from 'components/molecules/SpeedTestResults';
 import MainTemplate from 'components/templates/MainTemplate';
 import TypingStats from 'components/molecules/TypingStats';
 import Alert from 'components/molecules/Alert';
+import PageHeading from 'components/molecules/PageHeading';
 
 interface OwnProps {}
 type Props = OwnProps;
@@ -96,12 +97,9 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
     <MainTemplate title={'Speed test'}>
       {state !== 'FINISHED' ? (
         <>
-          <div className={'pt-10'}>
-            <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
-              SPEED TEST {'>'} {modeLabel.toUpperCase()}
-            </p>
-            <h1 className={'text-2xl font-bold mt-2'}>Type as fast as you can!</h1>
-          </div>
+          <PageHeading steps={['SPEED TEST', modeLabel.toUpperCase()]}>
+            Type as fast as you can!
+          </PageHeading>
 
           <div className={'flex mt-10 gap-x-24'}>
             <TypingDisplayText activeLetter={activeLetter} letters={letters} mistakes={mistakes} />
@@ -118,12 +116,12 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
         </>
       ) : (
         <div className={'pt-10'}>
-          <div>
-            <p className={'text-sm text-gray-500 font-bold font-mono tracking-widest'}>
-              SPEED TEST {'>'} {modeLabel.toUpperCase()} {'>'} RESULTS
-            </p>
-            <h1 className={'text-2xl font-bold mt-2'}>Typing speed test results</h1>
-          </div>
+          <PageHeading
+            steps={['SPEED TEST', modeLabel.toUpperCase(), 'RESULTS']}
+            withTopPadding={false}
+          >
+            Typing speed test results
+          </PageHeading>
 
           <SpeedTestResults
             stats={stats}

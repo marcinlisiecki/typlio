@@ -12,6 +12,7 @@ module.exports = {
       },
       padding: {
         page: '36px',
+        fromHeader: '2.5rem',
       },
       maxWidth: {
         page: '1360px',

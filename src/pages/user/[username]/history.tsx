@@ -61,11 +61,11 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
   });
 
   return (
-    <MainTemplate title={'History'}>
-      <section className={'pt-10 mb-10'}>
+    <MainTemplate title={'History'} customStyles={'mb-20'}>
+      <div className={'pt-fromHeader mb-10'}>
         <PageLink href={`/user/${username}`}>{username}</PageLink>
         <h1 className={'font-bold text-2xl'}>History</h1>
-      </section>
+      </div>
       <section className={'flex gap-x-12 items-start'}>
         <section className={'flex-1'}>
           <div className={'flex flex-col'}>

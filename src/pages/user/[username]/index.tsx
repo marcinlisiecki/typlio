@@ -30,7 +30,7 @@ const UserProfilePage: FunctionComponent<Props> = ({ user, isOwnProfile, status 
 
   return (
     <MainTemplate title={'User profile page'}>
-      <section className={'flex justify-between pt-10'}>
+      <section className={'flex justify-between pt-fromHeader'}>
         <div className={'flex gap-x-8 items-center'}>
           <div className={'bg-gray-900 w-28 h-28 rounded-full'} />
           <div className={'flex flex-col justify-between h-full py-2'}>

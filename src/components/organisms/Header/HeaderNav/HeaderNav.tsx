@@ -75,7 +75,7 @@ const HeaderNav: FunctionComponent<Props> = () => {
 
                   <div className={'w-full h-px bg-gray-900'} />
 
-                  <DropdownMenuLink href={'/'}>
+                  <DropdownMenuLink href={`/settings/general`}>
                     <CogIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />
                     Settings
                   </DropdownMenuLink>
