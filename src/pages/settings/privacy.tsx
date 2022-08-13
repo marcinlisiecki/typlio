@@ -7,17 +7,17 @@ import PageHeading from 'components/molecules/PageHeading';
 interface OwnProps {}
 type Props = OwnProps;
 
-const UserGeneralSettings: FunctionComponent<Props> = () => {
+const UserPrivacySettings: FunctionComponent<Props> = () => {
   return (
     <MainTemplate title={'Settings'}>
       <PageHeading>Settings</PageHeading>
 
       <section className={'flex pt-fromHeader gap-x-8'}>
         <SettingsSidebar />
-        <section>General</section>
+        <section>Privacy</section>
       </section>
     </MainTemplate>
   );
 };
 
-export default UserGeneralSettings;
+export default UserPrivacySettings;
