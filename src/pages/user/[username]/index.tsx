@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import MainTemplate from 'components/templates/MainTemplate';
 import { GetServerSidePropsContext } from 'next';
-import { prisma } from 'lib/db/prisma';
-import { User } from 'next-auth';
-import Button from 'components/atoms/Button';
+
 import { getSession, useSession } from 'next-auth/react';
+import { prisma } from 'lib/db/prisma';
+
+import MainTemplate from 'components/templates/MainTemplate';
+import Button from 'components/atoms/Button';
 
 interface IUserProfile {
   username: string;
@@ -85,17 +86,21 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     return { props: { user: null, status: 404, isOwnProfile: false } };
   }
 
-  const user = await prisma.user.findFirst({
-    where: { username },
-    select: { username: true, id: true },
-  });
-  if (!user) {
-    return { props: { user: null, status: 404, isOwnProfile: false } };
+  try {
+    const user = await prisma.user.findFirst({
+      where: { username },
+      select: { username: true, id: true },
+    });
+    if (!user) {
+      return { props: { user: null, status: 404, isOwnProfile: false } };
+    }
+
+    const isOwnProfile = session?.user.id === user.id || false;
+
+    return { props: { user: JSON.parse(JSON.stringify(user)), status: 200, isOwnProfile } };
+  } catch (err) {
+    return { props: { user: null, status: 500, isOwnProfile: false } };
   }
-
-  const isOwnProfile = session?.user.id === user.id || false;
-
-  return { props: { user: JSON.parse(JSON.stringify(user)), status: 200, isOwnProfile } };
 };
 
 export default UserProfilePage;

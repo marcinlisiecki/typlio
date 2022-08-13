@@ -1,21 +1,16 @@
 import React, { FormEvent, FunctionComponent, useState } from 'react';
-import MainTemplate from 'components/templates/MainTemplate';
 import { NextPageContext } from 'next';
-import { prisma } from 'lib/db/prisma';
-import Label from 'components/atoms/Label';
-import Checkbox from 'components/atoms/Checkbox';
-import Select from 'components/atoms/Select';
-import username from 'pages/user/[username]/index';
-import { useRouter } from 'next/router';
-import PageLink from 'components/atoms/PageLink';
 
-interface IHistory {
-  cpm: number;
-  accuracy: number;
-  mode: string;
-  id: string;
-  createdAt: Date;
-}
+import { SPEED_TEST_MODES } from 'lib/constants';
+import { useRouter } from 'next/router';
+import { prisma } from 'lib/db/prisma';
+
+import MainTemplate from 'components/templates/MainTemplate';
+import Checkbox from 'components/atoms/Checkbox';
+import PageLink from 'components/atoms/PageLink';
+import Select from 'components/atoms/Select';
+import Label from 'components/atoms/Label';
+import UserHistoryItem from 'components/molecules/UserHistoryItem';
 
 interface OwnProps {
   history: IHistory[] | null;
@@ -27,15 +22,7 @@ type SortBy = 'newest' | 'oldest' | 'fastest' | 'slowest' | 'best-accuracy' | 'w
 type Props = OwnProps;
 
 const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
-  const [showModes, setShowModes] = useState<string[]>([
-    '10w',
-    '50w',
-    '100w',
-    '200w',
-    '0.5m',
-    '1m',
-    '2m',
-  ]);
+  const [showModes, setShowModes] = useState<string[]>(SPEED_TEST_MODES.map((mode) => mode.name));
   const [sortBy, setSortBy] = useState<SortBy>('newest');
 
   const { username } = useRouter().query;
@@ -104,89 +91,22 @@ const UserHistoryPage: FunctionComponent<Props> = ({ history, status }) => {
           <div className={'mt-8'}>
             <p className={'text-gray-300 mb-[6px] ml-1 text-sm'}>Mode</p>
             <div className={'flex flex-col gap-y-1'}>
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'10 Words'}
-                id={'10w'}
-                name={'10w'}
-                checked={showModes.includes('10w')}
-              />
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'50 Words'}
-                id={'50w'}
-                name={'50w'}
-                checked={showModes.includes('50w')}
-              />
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'100 Words'}
-                id={'100w'}
-                name={'100w'}
-                checked={showModes.includes('100w')}
-              />
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'200 Words'}
-                id={'200w'}
-                name={'200w'}
-                checked={showModes.includes('200w')}
-              />
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'30 Seconds'}
-                id={'0.5m'}
-                name={'0.5m'}
-                checked={showModes.includes('0.5m')}
-              />
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'1 Minute'}
-                id={'1m'}
-                name={'1m'}
-                checked={showModes.includes('1m')}
-              />
-              <Checkbox
-                onClick={handleToggleMode}
-                label={'2 Minutes'}
-                id={'2m'}
-                name={'2m'}
-                checked={showModes.includes('2m')}
-              />
+              {SPEED_TEST_MODES.map(({ label, name }) => (
+                <Checkbox
+                  key={name}
+                  onClick={handleToggleMode}
+                  label={label}
+                  id={name}
+                  name={name}
+                  checked={showModes.includes(name)}
+                />
+              ))}
             </div>
           </div>
         </section>
         <section className={'bg-light border border-gray-900 rounded-lg p-5 shadow-xl flex-[4]'}>
-          {sortedHistory.map(({ id, mode, createdAt, cpm, accuracy }, index) => (
-            <div
-              key={id}
-              className={`${index > 0 ? 'border-t border-t-gray-900/80 pt-4 mt-4' : ''}`}
-            >
-              <div className={'flex justify-between'}>
-                <div className={'flex gap-x-4'}>
-                  <p className={'text-sm text-text-tertiary/90 font-medium'}>ID {id}</p>
-                  <p className={'text-sm text-text-tertiary/90 font-medium'}>{mode}</p>
-                </div>
-                <div>
-                  <p className={'text-sm text-text-tertiary/90 font-medium'}>
-                    {new Date(createdAt).toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              <div className={'flex gap-x-6 mt-5'}>
-                <p className={'font-medium'}>
-                  {(cpm / 5).toFixed(1)}{' '}
-                  <span className={'text-text-tertiary text-sm font-semibold'}>WPM</span>
-                </p>
-                <p className={'font-medium'}>
-                  {cpm} <span className={'text-text-tertiary text-sm font-semibold'}>CPM</span>
-                </p>
-                <p className={'font-medium'}>
-                  {accuracy.toFixed(2)}%{' '}
-                  <span className={'text-text-tertiary text-sm font-semibold'}>Accuracy</span>
-                </p>
-              </div>
-            </div>
+          {sortedHistory.map((item, index) => (
+            <UserHistoryItem history={item} index={index} key={item.id} />
           ))}
         </section>
       </section>
@@ -200,23 +120,27 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return { props: { history: null, status: 404 } };
   }
 
-  const history = await prisma.speedTest.findMany({
-    where: { user: { username } },
-    select: {
-      cpm: true,
-      accuracy: true,
-      mode: true,
-      id: true,
-      createdAt: true,
-      user: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  });
-  if (!history) {
-    return { props: { history: null, status: 404 } };
-  }
+  try {
+    const history = await prisma.speedTest.findMany({
+      where: { user: { username } },
+      select: {
+        cpm: true,
+        accuracy: true,
+        mode: true,
+        id: true,
+        createdAt: true,
+        user: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    if (!history) {
+      return { props: { history: null, status: 404 } };
+    }
 
-  return { props: { history: JSON.parse(JSON.stringify(history)), status: 200 } };
+    return { props: { history: JSON.parse(JSON.stringify(history)), status: 200 } };
+  } catch (err) {
+    return { props: { history: null, status: 500 } };
+  }
 };
 
 export default UserHistoryPage;

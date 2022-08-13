@@ -1,31 +1,22 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import MainTemplate from 'components/templates/MainTemplate';
 import { useRouter } from 'next/router';
+
+import { useSession } from 'next-auth/react';
+
+import { SpeedTestService } from 'services/api/speed-test';
 import { generateText } from 'lib/typing/generator';
+import { SPEED_TEST_MODES } from 'lib/constants';
+import { parseApiErrors } from 'lib/errors';
 import useTyping from 'hooks/useTyping';
+
 import TypingDisplayText from 'components/molecules/TypingDisplayText';
+import SpeedTestResults from 'components/molecules/SpeedTestResults';
+import MainTemplate from 'components/templates/MainTemplate';
 import TypingStats from 'components/molecules/TypingStats';
 import Alert from 'components/molecules/Alert';
-import SpeedTestResults from 'components/molecules/SpeedTestResults';
-import { useSession } from 'next-auth/react';
-import { parseApiErrors } from 'lib/errors';
-import { SpeedTestService } from 'services/api/speed-test';
 
 interface OwnProps {}
-
 type Props = OwnProps;
-
-const modeSlugToLabel = {
-  '10w': '10 WORDS',
-  '50w': '50 WORDS',
-  '100w': '100 WORDS',
-  '200w': '200 WORDS',
-  '0.5m': '30 SECONDS',
-  '1m': '1 MINUTE',
-  '2m': '2 MINUTES',
-  '5m': '5 MINUTES',
-  custom: 'CUSTOM',
-};
 
 const SpeedTestPage: FunctionComponent<Props> = () => {
   const [generatedText, setGeneratedText] = useState<string>('');
@@ -44,7 +35,10 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
   const { mode } = router.query;
 
   useEffect(() => {
-    if (typeof mode !== 'string' || !Object.keys(modeSlugToLabel).includes(mode)) {
+    if (
+      typeof mode !== 'string' ||
+      SPEED_TEST_MODES.findIndex((item) => item.name === mode) === -1
+    ) {
       router.push('/speed-test').then();
       return;
     }
@@ -56,7 +50,8 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
     resetTyping(text, mode);
   }, [router]);
 
-  if (typeof mode !== 'string' || !Object.keys(modeSlugToLabel).includes(mode)) return <div />;
+  if (typeof mode !== 'string' || SPEED_TEST_MODES.findIndex((item) => item.name === mode) === -1)
+    return <div />;
 
   const handleNewText = () => {
     let text = '';
@@ -94,8 +89,8 @@ const SpeedTestPage: FunctionComponent<Props> = () => {
     setLoading(false);
   }
 
-  // @ts-ignore
-  const modeLabel: any = modeSlugToLabel[mode];
+  const modeLabel: any =
+    SPEED_TEST_MODES[SPEED_TEST_MODES.findIndex((item) => item.name === mode)]?.label || '';
 
   return (
     <MainTemplate title={'Speed test'}>

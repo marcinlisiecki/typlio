@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 
 import { ArrowSmRightIcon } from '@heroicons/react/outline';
@@ -6,6 +7,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import { LoginValidationSchema } from 'lib/validation/user';
+import { getErrorMessage, parseApiErrors } from 'lib/errors';
+import { ErrorMessage } from 'lib/errors/constants';
+import { AuthService } from 'services/api/auth';
+import { isValidJson } from 'lib/utils';
 
 import MainTemplate from 'components/templates/MainTemplate';
 import PageLink from 'components/atoms/PageLink';
@@ -13,12 +18,6 @@ import Button from 'components/atoms/Button';
 import Input from 'components/atoms/Input';
 import Label from 'components/atoms/Label';
 import Logo from 'components/atoms/Logo';
-import { signIn } from 'next-auth/react';
-import { isValidJson } from 'lib/utils';
-import { AuthService } from 'services/api/auth';
-import { getErrorMessage, parseApiErrors } from 'lib/errors';
-import { ErrorMessage } from 'lib/errors/constants';
-import { useRouter } from 'next/router';
 
 const LoginPage: NextPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
