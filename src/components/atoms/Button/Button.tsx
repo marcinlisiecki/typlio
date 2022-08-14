@@ -13,6 +13,7 @@ interface OwnProps {
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 
   variant?: 'primary' | 'secondary' | 'tertiary';
+  color?: 'primary' | 'danger';
 
   isDisabled?: boolean;
   isLoading?: boolean;
@@ -40,6 +41,7 @@ const Button: FunctionComponent<Props> = ({
   isDisabled,
   isLoading,
   variant = 'primary',
+  color = 'primary',
 }) => {
   const [textWidth, setTextWidth] = useState<number>(0);
   const textRef = useRef<any>(null);
@@ -56,8 +58,8 @@ const Button: FunctionComponent<Props> = ({
       disabled={isDisabled || isLoading}
       onClick={onClick}
       className={`text-sm bg-primary-600 border border-transparent text-text-primary px-8 py-3 rounded-lg font-medium transition hover:bg-primary-700 active:scale-[0.98] transform disabled:!bg-gray-800 relative flex justify-center gap-x-2 ${
-        variant === 'secondary' && '!bg-light hover:!bg-light/75 !border-gray-900 shadow-md'
-      } ${
+        color === 'danger' && '!bg-red-500 hover:!bg-red-600'
+      } ${variant === 'secondary' && '!bg-light hover:!bg-light/75 !border-gray-900 shadow-md'} ${
         variant === 'tertiary' &&
         'bg-transparent hover:bg-transparent !p-0 hover:opacity-75 active:scale-100 active:opacity-50'
       } ${customStyles}`}
