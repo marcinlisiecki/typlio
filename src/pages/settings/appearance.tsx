@@ -10,7 +10,7 @@ type Props = OwnProps;
 const AppearanceSettings: FunctionComponent<Props> = () => {
   return (
     <MainTemplate title={'Settings'}>
-      <PageHeading>Settings</PageHeading>
+      <PageHeading steps={['SETTINGS', 'APPEARANCE']}>Settings</PageHeading>
 
       <section className={'flex pt-fromHeader gap-x-8'}>
         <SettingsSidebar />
