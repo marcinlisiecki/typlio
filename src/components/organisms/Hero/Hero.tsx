@@ -50,7 +50,7 @@ const Hero: FunctionComponent<Props> = () => {
               More
               <ArrowSmRightIcon
                 className={
-                  'w-[20px] h-[20px] stroke-gray-500 transition transform group-hover:translate-x-1'
+                  'w-[20px] h-[20px] stroke-gray-500 transition transform group-hover:translate-x-1 -mr-3'
                 }
               />
             </p>
