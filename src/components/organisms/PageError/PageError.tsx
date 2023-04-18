@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import MainTemplate from 'components/templates/MainTemplate';
 import PageLink from 'components/atoms/PageLink';
-import { ExclamationCircleIcon, ExclamationIcon } from '@heroicons/react/outline';
+import { ExclamationIcon } from '@heroicons/react/outline';
 
 interface OwnProps {
   status: number;

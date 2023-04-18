@@ -60,10 +60,10 @@ const LoginPage: NextPage = () => {
 
   return (
     <MainTemplate title={'Login page'} withHeader={false} withHeaderPadding={false}>
-      <div className={'w-full h-screen flex flex-col gap-y-16 items-center justify-center'}>
+      <div className={'w-full h-screen flex flex-col gap-y-16 items-center justify-center mt-4'}>
         <Logo />
 
-        <form className={'w-[370px] flex flex-col gap-y-8'} onSubmit={handleSubmit(onSubmit)}>
+        <form className={'w-[370px] flex flex-col gap-y-8 p-6'} onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Label htmlFor={'email'}>Email Address</Label>
             <Input
@@ -78,7 +78,7 @@ const LoginPage: NextPage = () => {
           <div>
             <div className={'flex justify-between'}>
               <Label htmlFor={'password'}>Password</Label>
-              <PageLink href={'/forgot-password'}>Forgot?</PageLink>
+              {/*<PageLink href={'/forgot-password'}>Forgot?</PageLink>*/}
             </div>
             <Input
               error={errors.password?.message || getErrorMessage(responseErrors, 'password')}

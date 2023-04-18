@@ -26,18 +26,18 @@ const HeaderNav: FunctionComponent<Props> = () => {
 
   return (
     <nav>
-      <ul className={'flex items-center gap-x-12'}>
+      <ul className={'flex items-center md:gap-x-12'}>
         <HeaderNavLink href={'/speed-test'}>Speed Test</HeaderNavLink>
-        <HeaderNavLink href={'/learn'}>Learn</HeaderNavLink>
-        <HeaderNavLink href={'/practice'}>Practice</HeaderNavLink>
+        {/*<HeaderNavLink href={'/learn'}>Learn</HeaderNavLink>*/}
+        {/*<HeaderNavLink href={'/practice'}>Practice</HeaderNavLink>*/}
 
-        <div className={'w-[2px] bg-gray-800 h-[22px] -mx-4'} />
+        <div className={'w-[2px] bg-gray-800 h-[22px] -mx-4 hidden md:block'} />
 
         {session?.user ? (
           <>
             <div className={'relative group'}>
               <HeaderNavLink
-                href={'/login'}
+                href={'#'}
                 customStyles={'flex justify-between gap-x-1 items-center group'}
               >
                 {session.user.username}
@@ -69,9 +69,9 @@ const HeaderNav: FunctionComponent<Props> = () => {
                   <DropdownMenuLink href={`/user/${session.user.username}/history`}>
                     <ClockIcon className={'stroke-gray-600 w-[18px] h-[18px]'} /> History
                   </DropdownMenuLink>
-                  <DropdownMenuLink href={'/'}>
-                    <ChartBarIcon className={'stroke-gray-600 w-[18px] h-[18px]'} /> Stats
-                  </DropdownMenuLink>
+                  {/*<DropdownMenuLink href={'/'}>*/}
+                  {/*  <ChartBarIcon className={'stroke-gray-600 w-[18px] h-[18px]'} /> Stats*/}
+                  {/*</DropdownMenuLink>*/}
 
                   <div className={'w-full h-px bg-gray-900'} />
 
@@ -80,10 +80,10 @@ const HeaderNav: FunctionComponent<Props> = () => {
                     Settings
                   </DropdownMenuLink>
 
-                  <DropdownMenuLink href={'/'}>
-                    <QuestionMarkCircleIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />
-                    Support
-                  </DropdownMenuLink>
+                  {/*<DropdownMenuLink href={'/'}>*/}
+                  {/*  <QuestionMarkCircleIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />*/}
+                  {/*  Support*/}
+                  {/*</DropdownMenuLink>*/}
 
                   <div className={'w-full h-px bg-gray-900'} />
 
@@ -99,7 +99,7 @@ const HeaderNav: FunctionComponent<Props> = () => {
           <>
             <HeaderNavLink
               href={'/login'}
-              customStyles={'flex justify-between gap-x-1 items-center group'}
+              customStyles={'justify-between gap-x-1 items-center group hidden md:flex'}
             >
               Login
               <ArrowSmRightIcon

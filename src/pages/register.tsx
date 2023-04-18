@@ -48,7 +48,7 @@ const RegisterPage: NextPage = () => {
       <div className={'w-full h-screen flex flex-col gap-y-16 items-center justify-center'}>
         <Logo />
 
-        <form className={'w-[370px] flex flex-col gap-y-8'} onSubmit={handleSubmit(onSubmit)}>
+        <form className={'w-[370px] flex flex-col gap-y-8 p-6'} onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Label htmlFor={'email'}>Email Address</Label>
             <Input

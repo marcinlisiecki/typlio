@@ -33,8 +33,10 @@ const UserGeneralSettings: FunctionComponent<Props> = ({ user, status }) => {
             <h1 className={'mb-4 font-semibold text-text-secondary'}>Profile picture</h1>
             <div className={'flex gap-x-8 items-center'}>
               <div className={'bg-gray-900 rounded-full w-20 h-20'} />
-              <Button variant={'secondary'}>Change photo</Button>
-              <Button variant={'secondary'} customStyles={'-ml-3'}>
+              <Button variant={'secondary'} isDisabled>
+                Change photo
+              </Button>
+              <Button variant={'secondary'} customStyles={'-ml-3'} isDisabled>
                 Delete photo
               </Button>
             </div>
@@ -101,10 +103,10 @@ const UserGeneralSettings: FunctionComponent<Props> = ({ user, status }) => {
             </Button>
           </section>
 
-          <section>
-            <h1 className={'mb-4 font-semibold text-text-secondary'}>Manage Account</h1>
-            <Button color={'danger'}>Delete Account</Button>
-          </section>
+          {/*<section>*/}
+          {/*  <h1 className={'mb-4 font-semibold text-text-secondary'}>Manage Account</h1>*/}
+          {/*  <Button color={'danger'}>Delete Account</Button>*/}
+          {/*</section>*/}
         </section>
       </section>
     </MainTemplate>

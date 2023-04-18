@@ -14,36 +14,36 @@ const sections = [
     isForLoggedIn: true,
     newSection: false,
   },
-  {
-    path: '/settings/security',
-    label: 'Security',
-    isForLoggedIn: true,
-    newSection: false,
-  },
-  {
-    path: '/settings/privacy',
-    label: 'Privacy',
-    isForLoggedIn: true,
-    newSection: false,
-  },
-  {
-    path: '/settings/appearance',
-    label: 'Appearance',
-    isForLoggedIn: false,
-    newSection: true,
-  },
-  {
-    path: '/settings/typing',
-    label: 'Typing',
-    isForLoggedIn: false,
-    newSection: false,
-  },
-  {
-    path: '/settings/language',
-    label: 'Language',
-    isForLoggedIn: false,
-    newSection: false,
-  },
+  // {
+  //   path: '/settings/security',
+  //   label: 'Security',
+  //   isForLoggedIn: true,
+  //   newSection: false,
+  // },
+  // {
+  //   path: '/settings/privacy',
+  //   label: 'Privacy',
+  //   isForLoggedIn: true,
+  //   newSection: false,
+  // },
+  // {
+  //   path: '/settings/appearance',
+  //   label: 'Appearance',
+  //   isForLoggedIn: false,
+  //   newSection: true,
+  // },
+  // {
+  //   path: '/settings/typing',
+  //   label: 'Typing',
+  //   isForLoggedIn: false,
+  //   newSection: false,
+  // },
+  // {
+  //   path: '/settings/language',
+  //   label: 'Language',
+  //   isForLoggedIn: false,
+  //   newSection: false,
+  // },
 ] as const;
 
 const SettingsSidebar: FunctionComponent<Props> = () => {
