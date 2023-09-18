@@ -3,6 +3,7 @@ import PageTemplate from 'components/templates/PageTemplate';
 import PageError from 'components/organisms/PageError';
 
 interface OwnProps {}
+
 type Props = OwnProps;
 
 const NotFoundPage: FunctionComponent<Props> = () => {

@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-dark;
-  }
+    body {
+        @apply bg-dark;
+    }
 
-  * {
-    @apply text-text-primary box-border;
-  }
+    * {
+        @apply text-text-primary box-border;
+    }
 }
 
 .no-scrollbar::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
 import Button from 'components/atoms/Button';
-import { ArrowSmRightIcon } from '@heroicons/react/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -45,16 +44,16 @@ const Hero: FunctionComponent<Props> = () => {
               </a>
             </Link>
           )}
-          <Button variant={'secondary'}>
-            <p className={'flex items-center gap-x-2 group'}>
-              More
-              <ArrowSmRightIcon
-                className={
-                  'w-[20px] h-[20px] stroke-gray-500 transition transform group-hover:translate-x-1 -mr-3'
-                }
-              />
-            </p>
-          </Button>
+          {/*<Button variant={'secondary'}>*/}
+          {/*  <p className={'flex items-center gap-x-2 group'}>*/}
+          {/*    More*/}
+          {/*    <ArrowSmRightIcon*/}
+          {/*      className={*/}
+          {/*        'w-[20px] h-[20px] stroke-gray-500 transition transform group-hover:translate-x-1 -mr-3'*/}
+          {/*      }*/}
+          {/*    />*/}
+          {/*  </p>*/}
+          {/*</Button>*/}
         </div>
       </div>
     </section>

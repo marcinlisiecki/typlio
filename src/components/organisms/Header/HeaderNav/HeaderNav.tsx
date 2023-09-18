@@ -1,21 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
-import {
-  ArrowSmRightIcon,
-  UserCircleIcon,
-  ClockIcon,
-  ChartBarIcon,
-  LogoutIcon,
-  CogIcon,
-  QuestionMarkCircleIcon,
-} from '@heroicons/react/outline';
+import { ArrowSmRightIcon, UserCircleIcon, ClockIcon, LogoutIcon } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import HeaderNavLink from 'components/organisms/Header/HeaderNavLink';
 import { signOut, useSession } from 'next-auth/react';
 
 import DropdownMenu from 'components/molecules/DropdownMenu';
 import DropdownMenuLink from 'components/molecules/DropdownMenu/DropdownMenuLink';
-import Button from 'components/atoms/Button';
 import PageLink from 'components/atoms/PageLink';
 
 interface OwnProps {}
@@ -73,12 +64,12 @@ const HeaderNav: FunctionComponent<Props> = () => {
                   {/*  <ChartBarIcon className={'stroke-gray-600 w-[18px] h-[18px]'} /> Stats*/}
                   {/*</DropdownMenuLink>*/}
 
-                  <div className={'w-full h-px bg-gray-900'} />
+                  {/*<div className={'w-full h-px bg-gray-900'} />*/}
 
-                  <DropdownMenuLink href={`/settings/general`}>
-                    <CogIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />
-                    Settings
-                  </DropdownMenuLink>
+                  {/*<DropdownMenuLink href={`/settings/general`}>*/}
+                  {/*  <CogIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />*/}
+                  {/*  Settings*/}
+                  {/*</DropdownMenuLink>*/}
 
                   {/*<DropdownMenuLink href={'/'}>*/}
                   {/*  <QuestionMarkCircleIcon className={'stroke-gray-600 w-[18px] h-[18px]'} />*/}

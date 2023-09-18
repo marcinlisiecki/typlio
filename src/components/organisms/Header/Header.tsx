@@ -4,6 +4,7 @@ import HeaderNav from 'components/organisms/Header/HeaderNav';
 import Logo from 'components/atoms/Logo';
 
 interface OwnProps {}
+
 type Props = OwnProps;
 
 const Header: FunctionComponent<Props> = () => {

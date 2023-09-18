@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { GetServerSidePropsContext } from 'next';
 
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { prisma } from 'lib/db/prisma';
 
 import MainTemplate from 'components/templates/MainTemplate';
 import PageError from 'components/organisms/PageError';
-import Button from 'components/atoms/Button';
 
 interface IUserProfile {
   username: string;
@@ -21,9 +20,7 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-const UserProfilePage: FunctionComponent<Props> = ({ user, isOwnProfile, status }) => {
-  const { data: session } = useSession();
-
+const UserProfilePage: FunctionComponent<Props> = ({ user, status }) => {
   if (!user || status !== 200) {
     return <PageError status={status} />;
   }
@@ -39,33 +36,33 @@ const UserProfilePage: FunctionComponent<Props> = ({ user, isOwnProfile, status 
               <p className={'text-text-tertiary/75 text-sm font-medium'}>#{user.id}</p>
             </div>
 
-            <div className={'flex gap-x-6 text-sm font-medium'}>
-              <p>
-                51 <span className={'text-gray-400'}>Followers</span>
-              </p>
-              <p>
-                12 <span className={'text-gray-400'}>Following</span>
-              </p>
-            </div>
+            {/*<div className={'flex gap-x-6 text-sm font-medium'}>*/}
+            {/*  <p>*/}
+            {/*    51 <span className={'text-gray-400'}>Followers</span>*/}
+            {/*  </p>*/}
+            {/*  <p>*/}
+            {/*    12 <span className={'text-gray-400'}>Following</span>*/}
+            {/*  </p>*/}
+            {/*</div>*/}
           </div>
         </div>
 
-        <div className={'flex gap-x-4 items-start'}>
-          {isOwnProfile ? (
-            <>
-              <Button variant={'secondary'}>Edit Profile</Button>
-            </>
-          ) : (
-            <>
-              {session && (
-                <>
-                  <Button variant={'secondary'}>Add Friend</Button>
-                  <Button variant={'secondary'}>Follow</Button>
-                </>
-              )}
-            </>
-          )}
-        </div>
+        {/*<div className={'flex gap-x-4 items-start'}>*/}
+        {/*  {isOwnProfile ? (*/}
+        {/*    <>*/}
+        {/*      <Button variant={'secondary'}>Edit Profile</Button>*/}
+        {/*    </>*/}
+        {/*  ) : (*/}
+        {/*    <>*/}
+        {/*      {session && (*/}
+        {/*        <>*/}
+        {/*          <Button variant={'secondary'}>Add Friend</Button>*/}
+        {/*          <Button variant={'secondary'}>Follow</Button>*/}
+        {/*        </>*/}
+        {/*      )}*/}
+        {/*    </>*/}
+        {/*  )}*/}
+        {/*</div>*/}
       </section>
     </MainTemplate>
   );
