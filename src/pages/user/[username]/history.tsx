@@ -119,14 +119,14 @@ export const getServerSideProps = async (context: NextPageContext) => {
     }
 
     const history = await prisma.speedTest.findMany({
-      where: { user: { username } },
+      where: { userId: user.id },
       select: {
         cpm: true,
         accuracy: true,
         mode: true,
         id: true,
         createdAt: true,
-        user: true,
+        user: false,
       },
       orderBy: { createdAt: 'desc' },
     });
